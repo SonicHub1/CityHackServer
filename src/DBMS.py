@@ -161,6 +161,11 @@ class Database:
         
         return self._write_DB(self._db)
 
+    def clean(self) -> bool:
+        """Deletes all records in the database"""
+        self._db = {}
+        return self._write_DB(self._db)
+
     @classmethod
     def create_database(cls, name: str, path: str = "../DB", verbose: bool = True):
         dbs_already_at_path = set(glob.glob(f"{path}/*.pkl"))

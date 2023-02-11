@@ -4,8 +4,8 @@ import Proficiency
 
 from DBMS import Database
 from Genre import Genre
-from Instrument import Instrument
-from Proficiency import Proficiency
+from Instrument import *
+from Proficiency import *
 from User import User
 from Venue import Venue
 
@@ -53,16 +53,16 @@ def get_genres() -> list:
 
 
 def _create_proficiency_obj(proficiency:str) -> Proficiency:
-    return eval(f"Proficiency.{proficiency}()")
+    return eval(f"{proficiency}()")
 
 
 def _create_instrument_obj(instrument:str, proficiency:str, performer:bool, teacher:bool, student:bool) -> Instrument:
     proficiency = _create_proficiency_obj(proficiency)
-    return eval(f"Instrument.{instrument}(proficiency, performer, teacher, student))")
+    return eval(f"{instrument}(proficiency, performer, teacher, student)")
 
 
 # instruments = [("Guitar", "Beginner", True, False, False), ("Piano", "Intermediate", False, True, False)]
-def add_instruments(username:str, instruments:list) -> bool:
+def add_instruments(username:str, instruments:list[str]) -> bool:
     if username in users:
         user_obj = users[username]
         for instrument in instruments:

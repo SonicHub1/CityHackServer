@@ -8,7 +8,7 @@ class Proficiency(ABC):
 
     def __new__(cls, *args, **kwargs):
         if cls._obj is None:
-            cls._obj = super().__new__(cls, *args, **kwargs)
+            cls._obj = super().__new__(cls)
         return cls._obj
 
     def __init__(self, name:str):
