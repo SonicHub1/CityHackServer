@@ -10,3 +10,7 @@ __pycache__/
 *.DS_Store
 **/.DS_Store
 
+# Pickle Files
+*.pkl
+**/.pkl
+
