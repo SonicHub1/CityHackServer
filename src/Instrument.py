@@ -67,17 +67,17 @@ class Instrument(ABC):
 class Piano(Instrument):
     """Piano class"""
 
-    def __init__(self, proficiency:Proficiency):
-        super().__init__("Piano", proficiency)
+    def __init__(self, proficiency:Proficiency, performer:bool = False, teacher:bool = False, student:bool = False):
+        super().__init__("Piano", proficiency, performer = performer, teacher = teacher, student = student)
 
 class Guitar(Instrument):
     """Guitar class"""
 
-    def __init__(self, proficiency:Proficiency):
-        super().__init__("Guitar", proficiency)
+    def __init__(self, proficiency:Proficiency, performer:bool = False, teacher:bool = False, student:bool = False):
+        super().__init__("Guitar", proficiency, performer = performer, teacher = teacher, student = student)
 
 class Drums(Instrument):
     """Drums class"""
 
-    def __init__(self, proficiency:Proficiency):
-        super().__init__("Drums", proficiency)
+    def __init__(self, proficiency:Proficiency, performer:bool = False, teacher:bool = False, student:bool = False):
+        super().__init__("Drums", proficiency,performer = performer, teacher = teacher, student = student)

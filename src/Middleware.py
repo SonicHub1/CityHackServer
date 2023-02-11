@@ -48,13 +48,15 @@ def _create_proficiency_obj(proficiency:str) -> Proficiency:
 
 def _create_instrument_obj(instrument:str, proficiency:str, performer:bool, teacher:bool, student:bool) -> Instrument:
     proficiency = _create_proficiency_obj(proficiency)
-    return eval(f"Instrument.{instrument}(proficiency)")
+    return eval(f"Instrument.{instrument}(proficiency, performer, teacher, student))")
 
 # instruments = [("Guitar", "Beginner", True, False, False), ("Piano", "Intermediate", False, True, False)]
 def add_instruments(username:str, instruments:list) -> bool:
     if username in users:
+        user_obj = users[username]
         for instrument in instruments:
-            users[username].add_instrument(_create_instrument_obj(instrument=instrument[0], proficiency=instrument[1], performer=instrument[2], teacher=instrument[3], student=instrument[4]))
+            user_obj.add_instrument(_create_instrument_obj(instrument=instrument[0], proficiency=instrument[1], performer=instrument[2], teacher=instrument[3], student=instrument[4]))
+            users.add_single_record(username, user_obj, overwrite=True)
         return True
     else:
         return False

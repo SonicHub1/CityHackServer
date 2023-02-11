@@ -113,6 +113,14 @@ class Database:
         
         return {record_id: self._db[record_id] for record_id in record_ids}
     
+    def update_single_record(self, obj_id: str, obj: Any) -> bool:
+        """Updates the record with the given id"""
+        return self.add_single_record(obj_id, obj, overwrite=True)
+
+    def update_multiple_records(self, records: dict[str, Any]) -> bool:
+        """Updates the records with the given ids"""
+        return self.add_multiple_records(records, overwrite=True)
+
     def get_all_records(self) -> dict[str, Any]:
         """Returns all records in the database"""
         return self._db
