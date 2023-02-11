@@ -13,6 +13,8 @@ class Database:
             self._db = self._load_DB()
         except FileNotFoundError as exc:
             raise FileNotFoundError(f"Database with name '{name}' at path '{path}' does not exist. Consider using `Database.create_database(name='{name}', path='{path}')` to create a database first.") from exc
+        else:
+            print(f"Database '{name}' loaded successfully.")
     
     def __getitem__(self, key:str) -> Any:
         return self.get_single_record(key)
@@ -88,14 +90,27 @@ class Database:
         self._check_multiple_record_ids(record_ids)
         
         if any(record_id not in self._db for record_id in record_ids):
-            problematic_keys = tuple(filter(lambda x: x not in self._db, record_ids))
-            raise KeyError("Record(s) with id(s) ({}) does not exist in the database.".format(*problematic_keys))
+            problematic_keys = filter(lambda x: x not in self._db, record_ids)
+            problematic_key_str = ", ".join(problematic_keys)
+            raise KeyError(f"Record(s) with id(s) [{problematic_key_str}] does not exist in the database.")
         
         return {record_id: self._db[record_id] for record_id in record_ids}
     
     def get_all_records(self) -> dict[str, Any]:
         """Returns all records in the database"""
         return self._db
+
+    def keys(self) -> Iterable[str]:
+        """Returns all the keys in the database"""
+        return self._db.keys()
+
+    def values(self) -> Iterable[Any]:
+        """Returns all the values in the database"""
+        return self._db.values()
+
+    def items(self) -> Iterable[tuple[str, Any]]:
+        """Returns all the items in the database"""
+        return self._db.items()
 
     def delete_record(self, obj_id: str, silence_error:bool = False) -> bool:
         """Deletes the record with the given id"""
@@ -112,8 +127,9 @@ class Database:
         self._check_multiple_record_ids(record_ids)
         
         if any(record_id not in self._db for record_id in record_ids) and not silence_error:
-            problematic_keys = tuple(filter(lambda x: x not in self._db, record_ids))
-            raise KeyError("Record(s) with id(s) ({}) does not exist in the database. Consider using 'silence_error=True' to silence this error.".format(*problematic_keys))
+            problematic_keys = filter(lambda x: x not in self._db, record_ids)
+            problematic_key_str = ", ".join(problematic_keys)
+            raise KeyError(f"Record(s) with id(s) [{problematic_key_str}] does not exist in the database. Consider using 'silence_error=True' to silence this error.")
         
         for record_id in record_ids:
             del self._db[record_id]
@@ -147,4 +163,5 @@ class Database:
             raise FileNotFoundError(f"Database with name '{name}' at '{path}' does not exist")
 
 
-a = Database.create_database('test', '../DB')
+a = Database(name='test', path='../DB')
+print(a.get_multiple_records(['a', 'b', 'c']))
