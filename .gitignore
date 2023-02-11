@@ -14,3 +14,7 @@ __pycache__/
 *.pkl
 **/.pkl
 DB/*.pkl
+
+#Admin Script
+Admin.py
+admin.py
