@@ -22,6 +22,11 @@ class Proficiency(ABC):
     def __str__(self):
         return f"Name: {self._name}"
 
+    @classmethod
+    def get_all_proficiencies(cls):
+        """Get all proficiencies"""
+        return tuple(x() for x in Proficiency.__subclasses__())
+
 class Easy(Proficiency):
     """Class defining easy proficiency"""
 

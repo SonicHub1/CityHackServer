@@ -27,6 +27,11 @@ class Instrument(ABC):
         """Get the proficiency of the instrument"""
         return self._proficiency
 
+    @classmethod
+    def get_all_instruments(cls):
+        """Get all instruments"""
+        return tuple(x() for x in Instrument.__subclasses__())
+
 class Piano(Instrument):
     """Piano class"""
 
