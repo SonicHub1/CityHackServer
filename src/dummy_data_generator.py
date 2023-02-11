@@ -6,7 +6,7 @@ from Instrument import Instrument
 from Proficiency import Proficiency
 from Genre import Genre
 
-N = 10
+N = 100
 emails = [''.join(random.choices(string.ascii_letters, k=32)) for _ in range(N)]
 passwords = [''.join(random.choices(string.ascii_letters, k=32)) for _ in range(N)]
 names = [''.join(random.choices(string.ascii_letters, k=12)) for _ in range(N)]
