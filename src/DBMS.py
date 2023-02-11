@@ -19,7 +19,6 @@ class Database:
         
     def __setitem__(self, key:str, value:Any, overwrite=False) -> bool:
         return self.add_single_record(value, key, overwrite)
-    
 
     def _load_DB(self) -> dict[str, Any]:
         with open(self._db_path, "rb") as handle:
