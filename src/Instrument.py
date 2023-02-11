@@ -16,6 +16,9 @@ class Instrument(ABC):
     def __init__(self, name:str, proficiency:Proficiency, performer:bool = False, teacher:bool = False, student:bool = False):
         self._name:str = name
         self._proficiency:Proficiency = proficiency
+        
+        assert not (teacher and student), "Teacher and student cannot both be true"
+        
         self._teacher:bool = teacher
         self._student:bool = student
         self.is_performer:bool = performer
