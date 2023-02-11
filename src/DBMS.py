@@ -14,6 +14,13 @@ class Database:
         except FileNotFoundError as exc:
             raise FileNotFoundError(f"Database with name '{name}' at path '{path}' does not exist. Consider using `Database.create_database(name='{name}', path='{path}')` to create a database first.") from exc
     
+    def __getitem__(self, key:str) -> Any:
+        return self.get_single_record(key)
+        
+    def __setitem__(self, key:str, value:Any, overwrite=False) -> bool:
+        return self.add_single_record(value, key, overwrite)
+    
+
     def _load_DB(self) -> dict[str, Any]:
         with open(self._db_path, "rb") as handle:
             db = pickle.load(handle)
