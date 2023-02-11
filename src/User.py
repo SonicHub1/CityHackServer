@@ -1,11 +1,10 @@
-from abc import ABC
 from typing import Iterator
 
 from Genre import Genre
 from Instrument import Instrument
 
 
-class User(ABC):
+class User:
     def __init__(self, name, email):
         self._name:str = name
         self._email:str = email
