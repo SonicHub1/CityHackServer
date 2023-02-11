@@ -162,8 +162,10 @@ def _get_all_students_by_instrument(instrument:str) -> list:
         if user.plays_instrument(instrument):
             yield user
 
+
 def get_all_students_by_instrument(instrument:str) -> tuple:
     return tuple(_get_all_students_by_instrument(instrument))
+
 
 def get_venue(venue_id:str) -> Venue:
     if venue_id in venues:

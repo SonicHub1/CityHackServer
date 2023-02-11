@@ -61,7 +61,7 @@ class Instrument(ABC):
     @classmethod
     def get_all_instruments(cls):
         """Get all instruments"""
-        return tuple(x() for x in Instrument.__subclasses__())
+        return tuple(x.__name__ for x in Instrument.__subclasses__())
     
 
 class Piano(Instrument):

@@ -25,7 +25,7 @@ class Proficiency(ABC):
     @classmethod
     def get_all_proficiencies(cls):
         """Get all proficiencies"""
-        return tuple(x() for x in Proficiency.__subclasses__())
+        return tuple(x.__name__ for x in Proficiency.__subclasses__())
 
 class Easy(Proficiency):
     """Class defining easy proficiency"""

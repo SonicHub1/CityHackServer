@@ -23,7 +23,7 @@ class Genre(ABC):
     @classmethod
     def get_all_genres(cls):
         """Get all genres"""
-        return tuple(x() for x in Genre.__subclasses__())
+        return tuple(x.__name__ for x in Genre.__subclasses__())
 
 class Rock(Genre):
     """Class defining rock genre"""
