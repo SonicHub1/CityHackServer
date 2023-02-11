@@ -60,5 +60,3 @@ class User:
         """Remove an instrument from the user"""
         for instrument in instruments:
             self.remove_instrument(instrument)
-
-
