@@ -178,6 +178,11 @@ class Database:
         else:
             raise FileNotFoundError(f"Database with name '{name}' at '{path}' does not exist")
 
+    @classmethod
+    def get_all_databases(cls, path: str = "../DB") -> set[str]:
+        dbs_already_at_path = set(glob.glob(f"{path}/*.pkl"))
+        Database._all_databases = Database._all_databases.union(dbs_already_at_path)
+        return Database._all_databases
 
 
 
