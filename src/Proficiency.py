@@ -22,9 +22,6 @@ class Proficiency(ABC):
         """Get the name of the proficiency"""
         return self._name
 
-    def __str__(self):
-        return f"Name: {self._name}"
-
     @classmethod
     def get_all_proficiencies(cls):
         """Get all proficiencies"""

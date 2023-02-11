@@ -45,9 +45,10 @@ class User:
         """Get whether the user is a student"""
         return any(x.is_student for x in self._instrument_list)
 
-    def add_genre(self, genre):
+    def add_genre(self, genre:Genre):
         """Add a genre to the user"""
-        self._genre_list.append(genre)
+        if genre.name not in map(str, self._genre_list):
+            self._genre_list.append(genre)
 
     def add_genres(self, genres:Iterator[Genre]):
         """Add a genre to the user"""
@@ -69,7 +70,8 @@ class User:
     
     def add_instrument(self, instrument:Instrument):
         """Add an instrument to the user"""
-        self._instrument_list.append(instrument)
+        if instrument.name not in map(str, self._instrument_list):
+            self._instrument_list.append(instrument)
 
     def add_instruments(self, instruments:Iterator[Instrument]):
         """Add an instrument to the user"""

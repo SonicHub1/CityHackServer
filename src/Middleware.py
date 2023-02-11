@@ -3,11 +3,13 @@ import Instrument
 import Proficiency
 
 from DBMS import Database
-from Genre import Genre
+from Genre import *
 from Instrument import *
 from Proficiency import *
 from User import User
 from Venue import Venue
+
+
 
 auth_DB = Database("auth")
 users = Database("users")
@@ -74,7 +76,7 @@ def add_instruments(username:str, instruments:list[str]) -> bool:
 
 
 def _create_genre_obj(genre:str) -> Genre:
-    return eval(f"Genre.{genre}()")
+    return eval(f"{genre}()")
 
 
 def add_genres(username:str, genres:list) -> bool:
