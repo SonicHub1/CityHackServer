@@ -34,6 +34,15 @@ class User(ABC):
         """Add a genre to the user"""
         for genre in genres:
             self.add_genre(genre)
+
+    def remove_genre(self, genre):
+        """Remove a genre from the user"""
+        self._genre_list.remove(genre)
+    
+    def remove_genres(self, genres:Iterator[Genre]):
+        """Remove a genre from the user"""
+        for genre in genres:
+            self.remove_genre(genre)
     
     def add_instrument(self, instrument:Instrument):
         """Add an instrument to the user"""
@@ -43,3 +52,14 @@ class User(ABC):
         """Add an instrument to the user"""
         for instrument in instruments:
             self.add_instrument(instrument)
+
+    def remove_instrument(self, instrument:Instrument):
+        """Remove an instrument from the user"""
+        self._instrument_list.remove(instrument)
+
+    def remove_instruments(self, instruments:Iterator[Instrument]):
+        """Remove an instrument from the user"""
+        for instrument in instruments:
+            self.remove_instrument(instrument)
+
+
