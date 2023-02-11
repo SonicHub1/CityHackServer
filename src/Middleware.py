@@ -48,6 +48,10 @@ def get_instruments() -> list:
     return Instrument.get_all_instruments()
 
 
+def get_genres() -> list:
+    return Genre.get_all_genres()
+
+
 def _create_proficiency_obj(proficiency:str) -> Proficiency:
     return eval(f"Proficiency.{proficiency}()")
 
@@ -69,11 +73,15 @@ def add_instruments(username:str, instruments:list) -> bool:
         return False
 
 
+def _create_genre_obj(genre:str) -> Genre:
+    return eval(f"Genre.{genre}()")
+
+
 def add_genres(username:str, genres:list) -> bool:
     if username in users:
         user_obj = users[username]
         for genre in genres:
-            user_obj.add_genre(eval(f"Genre.{genre}()"))
+            user_obj.add_genre(_create_genre_obj(genre))
         users.update_single_record(obj_id=username, obj=user_obj)
         return True
     else:
