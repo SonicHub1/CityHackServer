@@ -176,6 +176,25 @@ class Database:
             
         return self._write_DB(self._db)
 
+    def get_single_record(self, obj_id: str) -> Any:
+        """Returns the record with the given id"""
+        self._check_single_record_id(obj_id)
+        
+        if obj_id not in self._db:
+            raise KeyError(f"Record with id '{obj_id}' does not exist in the database.")
+        
+        return self._db[obj_id]
+    
+    def get_multiple_records(self, record_ids: Iterable[str]) -> dict[str, Any]:
+        """Returns the records with the given ids"""
+        self._check_multiple_record_ids(record_ids)
+        
+        if any(record_id not in self._db for record_id in record_ids):
+            problematic_keys = tuple(filter(lambda x: x not in self._db, record_ids))
+            raise KeyError("Record(s) with id(s) ({}) does not exist in the database.".format(*problematic_keys))
+        
+        return {record_id: self._db[record_id] for record_id in record_ids}
+    
     @classmethod
     def create_database(name: str, path: str = "../DB"):
         if (access_path := f"{path}/{name}.pkl") not in Database._all_databases:
