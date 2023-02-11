@@ -69,7 +69,15 @@ def add_instruments(username:str, instruments:list) -> bool:
         return False
 
 
-def 
+def add_genres(username:str, genres:list) -> bool:
+    if username in users:
+        user_obj = users[username]
+        for genre in genres:
+            user_obj.add_genre(eval(f"Genre.{genre}()"))
+        users.update_single_record(obj_id=username, obj=user_obj)
+        return True
+    else:
+        return False
 
 
 def get_venue(venue_id:str) -> Venue:
