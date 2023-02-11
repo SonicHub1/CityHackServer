@@ -121,8 +121,7 @@ class Database:
             self._db = self._load_DB()
         except FileNotFoundError as exc:
             raise FileNotFoundError(f"Database with name '{name}' at path '{path}' does not exist. Consider using 'Database.create_database()' to create a database first.") from exc
-        
-
+    
     def _load_DB(self) -> dict[str, Any]:
         with open(self._db_path, "rb") as handle:
             db = pickle.load(handle)
@@ -138,28 +137,36 @@ class Database:
             write_status = True
         
         return write_status
-        
     
-    def add_single_record(self, obj: Any, obj_id: str, overwrite: bool = False) -> bool:
-        """Adds a single record to the database"""
+    def _check_single_record_id(self, obj_id: str) -> bool:
         if not isinstance(obj_id, str):
             raise TypeError(f"Expected 'str' for 'obj_id' but got '{type(obj_id)}' instead.")
         
-        if obj_id in self._db and not overwrite:
-            raise ValueError(f"Record with id '{obj_id}' already exists in the database. Consider using 'overwrite=True' to overwrite the existing record.")
+        return True
+
+    def _check_multiple_record_ids(self, record_ids: Iterable[str]) -> bool:
+        try:
+            if not all(isinstance(key, str) for key in record_ids):
+                problematic_keys = tuple(filter(lambda x: not isinstance(x, str), record_ids))
+                raise TypeError("Expected 'str' for all keys in 'records' but got key(s) ({}) with '{}' instead.".format(*problematic_keys, type(problematic_keys[0])))
+
+        except TypeError as exc:
+            raise TypeError(f"Expected 'Iterable[str]' for 'record_ids' but got '{type(record_ids)}' instead.") from exc
         
+        return True
+    
+    def add_single_record(self, obj: Any, obj_id: str, overwrite: bool = False) -> bool:
+        """Adds a single record to the database"""
+        self._check_single_record_id(obj_id)
+        
+        if obj_id in self._db and not overwrite:
+            raise ValueError(f"Record with id '{obj_id}' does not exist in the database.")
         self._db[obj_id] = obj
         return self._write_DB(self._db)
 
     def add_multiple_records(self, records: dict[str, Any], overwrite: bool = False) -> bool:
         """Adds multiple records to the database"""
-
-        if not isinstance(records, dict):
-            raise TypeError(f"Expected 'dict' for 'records' but got '{type(records)}' instead.")
-
-        if not all(isinstance(key, str) for key in records.keys()):
-            problematic_keys = tuple(filter(lambda x: not isinstance(x, str), records.keys()))
-            raise TypeError("Expected 'str' for all keys in 'records' but got key(s) ({}) with '{}' instead.".format(*problematic_keys, *map(type, problematic_keys)))
+        self._check_multiple_record_ids(records)
         
         for record_id, record_data in records.items():
             if record_id in self._db and not overwrite:
@@ -168,8 +175,6 @@ class Database:
                 self._db[record_id] = record_data
             
         return self._write_DB(self._db)
-
-
 
     @classmethod
     def create_database(name: str, path: str = "../DB"):
