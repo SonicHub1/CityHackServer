@@ -38,5 +38,6 @@ class Advanced(Proficiency):
     """Class defining advanced proficiency"""
     
     def __init__(self):
+        
         super().__init__("Advanced")
 
