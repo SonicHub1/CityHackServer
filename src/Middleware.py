@@ -88,64 +88,82 @@ def add_genres(username:str, genres:list) -> bool:
         return False
 
 
-def get_all_performers() -> list:
-    performers = []
+def _get_all_performers() -> list:
     for user in users:
         if user.is_performer:
-            performers.append(user)
-    return performers
+            yield user
+
+def get_all_performers() -> tuple:
+    return tuple(_get_all_performers())
 
 
-def get_all_teachers() -> list:
-    teachers = []
+def _get_all_teachers() -> list:
     for user in users:
         if user.is_teacher:
-            teachers.append(user)
-    return teachers
+            yield user
+
+def get_all_teachers() -> tuple:
+    return tuple(_get_all_teachers())
 
 
-def get_all_students() -> list:
-    students = []
+def _get_all_students() -> list:
     for user in users:
         if user.is_student:
-            students.append(user)
-    return students
+            yield user
+
+def get_all_students() -> tuple:
+    return tuple(_get_all_students())
 
 
-def get_all_performers_by_genre(genre:str) -> list:
-    performers = []
-    for user in users:
-        if user.is_performer:
-            if user.has_genre(genre):
-                performers.append(user)
-    return performers
+def _get_all_performers_by_genre(genre:str) -> list:
+    for user in _get_all_performers():
+        if user.has_genre(genre):
+            yield user
+
+def get_all_performers_by_genre(genre:str) -> tuple:
+    return tuple(_get_all_performers_by_genre(genre))
 
 
-def get_all_teachers_by_genre(genre:str) -> list:
-    teachers = []
-    for user in users:
-        if user.is_teacher:
-            if user.has_genre(genre):
-                teachers.append(user)
-    return teachers
+def _get_all_teachers_by_genre(genre:str) -> list:
+    for user in _get_all_teachers():
+        if user.has_genre(genre):
+            yield user
+
+def get_all_teachers_by_genre(genre:str) -> tuple:
+    return tuple(_get_all_teachers_by_genre(genre))
 
 
-def get_all_students_by_genre(genre:str) -> list:
-    students = []
-    for user in users:
-        if user.is_student:
-            if user.has_genre(genre):
-                students.append(user)
-    return students
+def _get_all_students_by_genre(genre:str) -> list:
+    for user in _get_all_students():
+        if user.has_genre(genre):
+            yield user
 
+def get_all_students_by_genre(genre:str) -> tuple:
+    return tuple(_get_all_students_by_genre(genre))
 
-def get_all_performers_by_instrument(instrument:str) -> list:
-    performers = []
-    for user in users:
-        if user.is_performer:
-            if user.plays_instrument(instrument):
-                performers.append(user)
-    return performers
+def _get_all_performers_by_instrument(instrument:str) -> list:
+    for user in _get_all_performers():
+        if user.plays_instrument(instrument):
+            yield user
+
+def get_all_performers_by_instrument(instrument:str) -> tuple:
+    return tuple(_get_all_performers_by_instrument(instrument))
+
+def _get_all_teachers_by_instrument(instrument:str) -> list:
+    for user in _get_all_teachers():
+        if user.plays_instrument(instrument):
+            yield user
+
+def get_all_teachers_by_instrument(instrument:str) -> tuple:
+    return tuple(_get_all_teachers_by_instrument(instrument))
+
+def _get_all_students_by_instrument(instrument:str) -> list:
+    for user in _get_all_students():
+        if user.plays_instrument(instrument):
+            yield user
+
+def get_all_students_by_instrument(instrument:str) -> tuple:
+    return tuple(_get_all_students_by_instrument(instrument))
 
 def get_venue(venue_id:str) -> Venue:
     if venue_id in venues:
