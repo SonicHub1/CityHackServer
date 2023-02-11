@@ -8,6 +8,7 @@ class Venue:
         self._phone = phone
         self._website = website
         self._capacity = capacity
+        self._id = None
 
     def __str__(self):
         return self._name

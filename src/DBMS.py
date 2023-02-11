@@ -171,16 +171,12 @@ class Database:
         Database._all_databases = Database._all_databases.union(dbs_already_at_path)
 
         if (access_path := f"{path}/{name}.pkl") in Database._all_databases:
-            os.remove(access_path)
-            Database._all_databases.remove(access_path)
+            surity_check = input(f"Are you sure you want to delete '{name}' at '{path}'? (y/n): ")
+            if surity_check.lower() == "y":
+                os.remove(access_path)
+                Database._all_databases.remove(access_path)
         else:
             raise FileNotFoundError(f"Database with name '{name}' at '{path}' does not exist")
-
-
-a = Database(name='test', path='../DB')
-print(a.get_all_records())
-print(a.delete_records(['rec2', 'rec1']))
-print(a.get_all_records())
 
 
 
