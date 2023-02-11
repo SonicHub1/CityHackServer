@@ -1,7 +1,9 @@
 import glob
+from inspect import Attribute
 import os
 import pickle
 from typing import Any, Iterable
+
 
 class Database:
     """A database object that stores data in a file"""
@@ -17,10 +19,13 @@ class Database:
             print(f"Database '{name}' loaded successfully.")
     
     def __getitem__(self, key:str) -> Any:
-        return self.get_single_record(key)
+        return self.get_single_record(obj_id=key)
         
     def __setitem__(self, key:str, value:Any, overwrite=False) -> bool:
-        return self.add_single_record(value, key, overwrite)
+        return self.add_single_record(obj_id=key, obj=value, overwrite=overwrite)
+
+    def __str__(self):
+        return str(self._db)
 
     def _load_DB(self) -> dict[str, Any]:
         with open(self._db_path, "rb") as handle:
@@ -45,28 +50,37 @@ class Database:
         return True
 
     def _check_multiple_record_ids(self, record_ids: Iterable[str]) -> bool:
+        err_str = ""
         try:
             if not all(isinstance(key, str) for key in record_ids):
                 problematic_keys = tuple(filter(lambda x: not isinstance(x, str), record_ids))
-                raise TypeError("Expected 'str' for all keys in 'records' but got key(s) ({}) with '{}' instead.".format(*problematic_keys, type(problematic_keys[0])))
+                problematic_key_str = ", ".join(map(str, problematic_keys))
+                problematic_key_type_str = ", ".join(map(lambda x: f"{type(x)}", problematic_keys))
+                err_str = f"Expected 'str' for all keys in 'records' but got key(s) [{problematic_key_str}] with [{problematic_key_type_str}] instead."
+                raise TypeError(err_str)
 
         except TypeError as exc:
-            raise TypeError(f"Expected 'Iterable[str]' for 'record_ids' but got '{type(record_ids)}' instead.") from exc
+            if str(exc) == err_str:
+                raise exc
+            raise TypeError(f"Expected 'Iterable[str]' for 'record_ids' but got {type(record_ids)} instead.") from exc
         
         return True
     
-    def add_single_record(self, obj: Any, obj_id: str, overwrite: bool = False) -> bool:
+    def add_single_record(self, obj_id: str, obj: Any, overwrite: bool = False) -> bool:
         """Adds a single record to the database"""
         self._check_single_record_id(obj_id)
         
         if obj_id in self._db and not overwrite:
-            raise ValueError(f"Record with id '{obj_id}' does not exist in the database.")
+            raise ValueError(f"Record with id '{obj_id}' already exists in the database. Consider using '.add_single_record(obj_id, obj, overwrite=True)' to overwrite the existing record.")
         self._db[obj_id] = obj
         return self._write_DB(self._db)
 
     def add_multiple_records(self, records: dict[str, Any], overwrite: bool = False) -> bool:
         """Adds multiple records to the database"""
-        self._check_multiple_record_ids(records.keys())
+        try:
+            self._check_multiple_record_ids(records.keys())
+        except AttributeError as exc:
+            raise AttributeError(f"Expected 'dict' for 'records' but got '{type(records)}' instead.") from exc
         
         for record_id, record_data in records.items():
             if record_id in self._db and not overwrite:
@@ -164,4 +178,8 @@ class Database:
 
 
 a = Database(name='test', path='../DB')
-print(a.get_multiple_records(['a', 'b', 'c']))
+print(a.get_all_records())
+print(a.add_multiple_records({334:'hi'}))
+print(a.get_all_records())
+
+
