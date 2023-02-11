@@ -1,3 +1,4 @@
+import glob
 import os
 import pickle
 from typing import Any, Iterable
@@ -11,7 +12,7 @@ class Database:
         try:
             self._db = self._load_DB()
         except FileNotFoundError as exc:
-            raise FileNotFoundError(f"Database with name '{name}' at path '{path}' does not exist. Consider using 'Database.create_database()' to create a database first.") from exc
+            raise FileNotFoundError(f"Database with name '{name}' at path '{path}' does not exist. Consider using `Database.create_database(name='{name}', path='{path}')` to create a database first.") from exc
     
     def _load_DB(self) -> dict[str, Any]:
         with open(self._db_path, "rb") as handle:
@@ -86,6 +87,10 @@ class Database:
         
         return {record_id: self._db[record_id] for record_id in record_ids}
     
+    def get_all_records(self) -> dict[str, Any]:
+        """Returns all records in the database"""
+        return self._db
+
     def delete_record(self, obj_id: str, silence_error:bool = False) -> bool:
         """Deletes the record with the given id"""
         self._check_single_record_id(obj_id)
@@ -110,17 +115,25 @@ class Database:
         return self._write_DB(self._db)
 
     @classmethod
-    def create_database(name: str, path: str = "../DB"):
+    def create_database(cls, name: str, path: str = "../DB", verbose: bool = True):
+        dbs_already_at_path = set(glob.glob(f"{path}/*.pkl"))
+        Database._all_databases = Database._all_databases.union(dbs_already_at_path)
+
         if (access_path := f"{path}/{name}.pkl") not in Database._all_databases:
             with open(access_path, "wb") as handle:
                 pickle.dump({}, handle, protocol=pickle.HIGHEST_PROTOCOL)
             Database._all_databases.add(access_path)
+            if verbose:
+                print(f"Database with name '{name}' at '{path}' created successfully.")
             return Database(name, path)
         else:
-            raise FileExistsError(f"Database with name '{name}' at '{path}' already exists")
+            raise FileExistsError(f"Database with name '{name}' at '{path}' already exists. Consider using `Database(name='{name}', path='{path}')` to access the database.")
     
     @classmethod
     def delete_database(cls, name: str, path: str = "../DB"):
+        dbs_already_at_path = set(glob.glob(f"{path}/*.pkl"))
+        Database._all_databases = Database._all_databases.union(dbs_already_at_path)
+
         if (access_path := f"{path}/{name}.pkl") in Database._all_databases:
             os.remove(access_path)
             Database._all_databases.remove(access_path)
@@ -128,5 +141,4 @@ class Database:
             raise FileNotFoundError(f"Database with name '{name}' at '{path}' does not exist")
 
 
-
-a = Database("test", "../DB")
+a = Database.create_database('test', '../DB')
