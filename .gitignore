@@ -13,4 +13,4 @@ __pycache__/
 # Pickle Files
 *.pkl
 **/.pkl
-
+DB/*.pkl

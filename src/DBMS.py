@@ -45,7 +45,7 @@ class Database:
     
     def _check_single_record_id(self, obj_id: str) -> bool:
         if not isinstance(obj_id, str):
-            raise TypeError(f"Expected 'str' for 'obj_id' but got '{type(obj_id)}' instead.")
+            raise TypeError(f"Expected 'str' for 'obj_id' but got {type(obj_id)} instead.")
         
         return True
 
@@ -84,7 +84,7 @@ class Database:
         
         for record_id, record_data in records.items():
             if record_id in self._db and not overwrite:
-                raise ValueError(f"Record with id '{record_id}' already exists in the database. Consider using 'overwrite=True' to overwrite the existing record.")
+                raise ValueError(f"Record with id '{record_id}' already exists in the database. Consider using 'add_multiple_records(records, overwrite: bool = True)' to overwrite the existing record.")
             else:
                 self._db[record_id] = record_data
             
@@ -131,7 +131,7 @@ class Database:
         self._check_single_record_id(obj_id)
         
         if obj_id not in self._db and not silence_error:
-            raise KeyError(f"Record with id '{obj_id}' does not exist in the database. Consider using 'silence_error=True' to silence this error.")
+            raise KeyError(f"Record with id '{obj_id}' does not exist in the database. Consider using `obj.delete_record('{obj_id}', silence_error=True)` to silence this error.")
         
         del self._db[obj_id]
         return self._write_DB(self._db)
@@ -143,7 +143,7 @@ class Database:
         if any(record_id not in self._db for record_id in record_ids) and not silence_error:
             problematic_keys = filter(lambda x: x not in self._db, record_ids)
             problematic_key_str = ", ".join(problematic_keys)
-            raise KeyError(f"Record(s) with id(s) [{problematic_key_str}] does not exist in the database. Consider using 'silence_error=True' to silence this error.")
+            raise KeyError(f"Record(s) with id(s) [{problematic_key_str}] does not exist in the database. Consider using `obj.delete_records({record_ids}, silence_error:bool = True)` to silence this error.")
         
         for record_id in record_ids:
             del self._db[record_id]
@@ -179,7 +179,9 @@ class Database:
 
 a = Database(name='test', path='../DB')
 print(a.get_all_records())
-print(a.add_multiple_records({334:'hi'}))
+print(a.delete_records(['rec2', 'rec1']))
 print(a.get_all_records())
+
+
 
 
