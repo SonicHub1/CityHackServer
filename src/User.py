@@ -25,6 +25,11 @@ class User:
         """Get the email of the user"""
         return self._email
 
+    @property
+    def id(self):
+        """Get the id of the user"""
+        return self._email
+
     def add_genre(self, genre):
         """Add a genre to the user"""
         self._genre_list.append(genre)
