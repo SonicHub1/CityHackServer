@@ -21,3 +21,6 @@ admin.py
 
 #Seed Data
 seed_data.json
+
+#file that seeds for testing
+seeder.py
