@@ -88,6 +88,65 @@ def add_genres(username:str, genres:list) -> bool:
         return False
 
 
+def get_all_performers() -> list:
+    performers = []
+    for user in users:
+        if user.is_performer:
+            performers.append(user)
+    return performers
+
+
+def get_all_teachers() -> list:
+    teachers = []
+    for user in users:
+        if user.is_teacher:
+            teachers.append(user)
+    return teachers
+
+
+def get_all_students() -> list:
+    students = []
+    for user in users:
+        if user.is_student:
+            students.append(user)
+    return students
+
+
+def get_all_performers_by_genre(genre:str) -> list:
+    performers = []
+    for user in users:
+        if user.is_performer:
+            if user.has_genre(genre):
+                performers.append(user)
+    return performers
+
+
+def get_all_teachers_by_genre(genre:str) -> list:
+    teachers = []
+    for user in users:
+        if user.is_teacher:
+            if user.has_genre(genre):
+                teachers.append(user)
+    return teachers
+
+
+def get_all_students_by_genre(genre:str) -> list:
+    students = []
+    for user in users:
+        if user.is_student:
+            if user.has_genre(genre):
+                students.append(user)
+    return students
+
+
+def get_all_performers_by_instrument(instrument:str) -> list:
+    performers = []
+    for user in users:
+        if user.is_performer:
+            if user.plays_instrument(instrument):
+                performers.append(user)
+    return performers
+
 def get_venue(venue_id:str) -> Venue:
     if venue_id in venues:
         return venues[venue_id]

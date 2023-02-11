@@ -30,6 +30,21 @@ class User:
         """Get the id of the user"""
         return self._email
 
+    @property
+    def is_performer(self) -> bool:
+        """Get whether the user is a performer"""
+        return any(x.is_performer for x in self._instrument_list)
+    
+    @property
+    def is_teacher(self) -> bool:
+        """Get whether the user is a teacher"""
+        return any(x.is_teacher for x in self._instrument_list)
+
+    @property
+    def is_student(self) -> bool:
+        """Get whether the user is a student"""
+        return any(x.is_student for x in self._instrument_list)
+
     def add_genre(self, genre):
         """Add a genre to the user"""
         self._genre_list.append(genre)
@@ -38,6 +53,10 @@ class User:
         """Add a genre to the user"""
         for genre in genres:
             self.add_genre(genre)
+
+    def has_genre(self, genre) -> bool:
+        """Check if the user likes a genre"""
+        return genre in map(lambda x: x.name, self._genre_list)
 
     def remove_genre(self, genre):
         """Remove a genre from the user"""
@@ -65,3 +84,7 @@ class User:
         """Remove an instrument from the user"""
         for instrument in instruments:
             self.remove_instrument(instrument)
+
+    def plays_instrument(self, instrument:Instrument) -> bool:
+        """Check if the user plays an instrument"""
+        return instrument in map(lambda x: x.name, self._instrument_list)
