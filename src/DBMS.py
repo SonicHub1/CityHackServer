@@ -27,6 +27,9 @@ class Database:
     def __str__(self):
         return str(self._db)
 
+    def __contains__(self, key:str) -> bool:
+        return key in self._db
+
     def _load_DB(self) -> dict[str, Any]:
         with open(self._db_path, "rb") as handle:
             db = pickle.load(handle)
