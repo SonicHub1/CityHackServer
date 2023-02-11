@@ -18,7 +18,7 @@ class Genre(ABC):
         return self._name
 
     def __str__(self):
-        return f"Name: {self._name}"
+        return f"{self._name}"
 
     @classmethod
     def get_all_genres(cls):
