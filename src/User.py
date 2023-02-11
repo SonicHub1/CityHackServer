@@ -87,6 +87,6 @@ class User:
         for instrument in instruments:
             self.remove_instrument(instrument)
 
-    def plays_instrument(self, instrument:Instrument) -> bool:
+    def plays_instrument(self, instrument:str) -> bool:
         """Check if the user plays an instrument"""
         return instrument in map(lambda x: x.name, self._instrument_list)

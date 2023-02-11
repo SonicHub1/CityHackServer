@@ -91,7 +91,7 @@ def add_genres(username:str, genres:list) -> bool:
 
 
 def _get_all_performers() -> list:
-    for user in users:
+    for user in users.values():
         if user.is_performer:
             yield user
 
@@ -100,7 +100,7 @@ def get_all_performers() -> tuple:
 
 
 def _get_all_teachers() -> list:
-    for user in users:
+    for user in users.values():
         if user.is_teacher:
             yield user
 
@@ -109,7 +109,7 @@ def get_all_teachers() -> tuple:
 
 
 def _get_all_students() -> list:
-    for user in users:
+    for user in users.values():
         if user.is_student:
             yield user
 

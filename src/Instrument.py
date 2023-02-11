@@ -6,13 +6,6 @@ from Proficiency import Proficiency
 class Instrument(ABC):
     """Instrument class"""
 
-    _obj = None
-
-    def __new__(cls, *args, **kwargs):
-        if cls._obj is None:
-            cls._obj = super().__new__(cls)
-        return cls._obj
-
     def __init__(self, name:str, proficiency:Proficiency, performer:bool = False, teacher:bool = False, student:bool = False):
         self._name:str = name
         self._proficiency:Proficiency = proficiency
