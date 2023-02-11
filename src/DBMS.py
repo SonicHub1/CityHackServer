@@ -166,7 +166,7 @@ class Database:
 
     def add_multiple_records(self, records: dict[str, Any], overwrite: bool = False) -> bool:
         """Adds multiple records to the database"""
-        self._check_multiple_record_ids(records)
+        self._check_multiple_record_ids(records.keys())
         
         for record_id, record_data in records.items():
             if record_id in self._db and not overwrite:
@@ -195,6 +195,29 @@ class Database:
         
         return {record_id: self._db[record_id] for record_id in record_ids}
     
+    def delete_record(self, obj_id: str, silence_error:bool = False) -> bool:
+        """Deletes the record with the given id"""
+        self._check_single_record_id(obj_id)
+        
+        if obj_id not in self._db and not silence_error:
+            raise KeyError(f"Record with id '{obj_id}' does not exist in the database. Consider using 'silence_error=True' to silence this error.")
+        
+        del self._db[obj_id]
+        return self._write_DB(self._db)
+
+    def delete_records(self, record_ids: Iterable[str], silence_error:bool = False) -> bool:
+        """Deletes the records with the given ids"""
+        self._check_multiple_record_ids(record_ids)
+        
+        if any(record_id not in self._db for record_id in record_ids) and not silence_error:
+            problematic_keys = tuple(filter(lambda x: x not in self._db, record_ids))
+            raise KeyError("Record(s) with id(s) ({}) does not exist in the database. Consider using 'silence_error=True' to silence this error.".format(*problematic_keys))
+        
+        for record_id in record_ids:
+            del self._db[record_id]
+        
+        return self._write_DB(self._db)
+
     @classmethod
     def create_database(name: str, path: str = "../DB"):
         if (access_path := f"{path}/{name}.pkl") not in Database._all_databases:
