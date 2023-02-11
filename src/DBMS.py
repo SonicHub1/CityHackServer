@@ -140,7 +140,7 @@ class Database:
         return write_status
         
     
-    def add_single_record(self, obj: Any, obj_id: str, overwrite: bool = False):
+    def add_single_record(self, obj: Any, obj_id: str, overwrite: bool = False) -> bool:
         """Adds a single record to the database"""
         if not isinstance(obj_id, str):
             raise TypeError(f"Expected 'str' for 'obj_id' but got '{type(obj_id)}' instead.")
@@ -149,27 +149,25 @@ class Database:
             raise ValueError(f"Record with id '{obj_id}' already exists in the database. Consider using 'overwrite=True' to overwrite the existing record.")
         
         self._db[obj_id] = obj
-        self._write_DB(self._db)
+        return self._write_DB(self._db)
 
-    def add_multiple_records(self, records: dict[str, Any], overwrite: bool = False):
+    def add_multiple_records(self, records: dict[str, Any], overwrite: bool = False) -> bool:
         """Adds multiple records to the database"""
 
         if not isinstance(records, dict):
             raise TypeError(f"Expected 'dict' for 'records' but got '{type(records)}' instead.")
 
         if not all(isinstance(key, str) for key in records.keys()):
-            problematic_keys = [key for key in records.keys() if not isinstance(key, str)]
+            problematic_keys = tuple(filter(lambda x: not isinstance(x, str), records.keys()))
             raise TypeError("Expected 'str' for all keys in 'records' but got key(s) ({}) with '{}' instead.".format(*problematic_keys, *map(type, problematic_keys)))
         
-        for obj in objs:
-            if not isinstance(obj, dict):
-                raise TypeError(f"Expected 'dict' for 'obj' but got '{type(obj)}' instead.")
+        for record_id, record_data in records.items():
+            if record_id in self._db and not overwrite:
+                raise ValueError(f"Record with id '{record_id}' already exists in the database. Consider using 'overwrite=True' to overwrite the existing record.")
+            else:
+                self._db[record_id] = record_data
             
-            if len(obj) != 1:
-                raise ValueError(f"Expected 'dict' with length 1 but got '{len(obj)}' instead.")
-            
-            obj_id = list(obj.keys())[0]
-            self.add_single_record(obj[obj_id], obj_id, overwrite)
+        return self._write_DB(self._db)
 
 
 
