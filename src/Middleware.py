@@ -107,6 +107,7 @@ def _get_all_performers() -> list:
         if user.is_performer:
             yield user
 
+@app.route('/get/performers')
 def get_all_performers() -> tuple:
     return tuple(_get_all_performers())
 
