@@ -195,4 +195,6 @@ def create_feedPost(username:str, title:str, content:str, link:str) -> bool:
 
 @app.route("/feed")
 def get_all_feedPosts() -> tuple:
-    # return list(map(lambda x: x.__dict__, feed_DB.values()))
+    return list(map(lambda x: x.__dict__, feed_DB.values()))
+
+app.run()
