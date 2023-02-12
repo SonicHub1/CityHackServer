@@ -1,0 +1,64 @@
+{
+    "posts": [
+        {
+            "email": "JcBgUTixCAEgqSqYqjtoPUVQdTRlAmLD",
+            "title": "Utkarsh Jain",
+            "description": "I am a guitarist looking for a drummer",
+            "img": "https://daily.jstor.org/wp-content/uploads/2023/01/good_times_with_bad_music_1050x700.jpg"
+        },
+        {
+            "email": "mpeXdFtrojiidYkauSOkDDNyxojYOdix",
+            "title": "Aryman Navale",
+            "description": "I am a drummer looking for a guitarist",
+            "img": "https://img.freepik.com/free-vector/musical-pentagram-sound-waves-notes-background_1017-33911.jpg?w=2000"
+        },
+        {
+            "email": "ujcLyQsVYTwRmtryIsgaGoPBbdYYqkLA",
+            "title": "Abhimanyu Bhati",
+            "description": "I am a guitarist looking for a bassist",
+            "img": "https://img.freepik.com/free-vector/musical-notes-frame-with-text-space_1017-32857.jpg?w=2000"
+        },
+        {
+            "email": "GnbqpLODuAMJTLIkPlnUxsAeqRvevIvk",
+            "title": "Aryan Kasliwal",
+            "description": "I am a bassist looking for a guitarist",
+            "img": "https://images.template.net/wp-content/uploads/2014/11/background-music1.jpg"
+        },
+        {
+            "email": "sCIfLztcahDAPUBvyfgbsONGEkaQPFzh",
+            "title": "Wing Chi",
+            "description": "I am a drummer looking for a bassist",
+            "img": "https://wallpapers.com/images/file/compact-cassette-music-aesthetic-d9cca07ejzpawq1x.jpg"
+        },
+        {
+            "email": "MDfCOFIvxbcoBDVTSIRRPpPNjEGnqFUM",
+            "title": "Chun Tsz",
+            "description": "I am a bassist looking for a drummer",
+            "img": "https://wallpaperaccess.com/full/5208008.jpg"
+        },
+        {
+            "email": "MwVMpJwvJoBfJjzLysfPNtqmqXkHtcHk",
+            "title": "Ming Yuen",
+            "description": "I am a guitarist looking for a vocalist",
+            "img": "https://ih1.redbubble.net/image.468265504.2261/pp,840x830-pad,1000x1000,f8f8f8.u1.jpg"
+        },
+        {
+            "email": "cmkiFMjQneHMzRhaqFHGzMLgHTWGkvbf",
+            "title": "Tsau Ping",
+            "description": "I am a vocalist looking for a guitarist",
+            "img": "https://img.freepik.com/free-vector/orange-aesthetic-background-musical-instrument-frame-retro-design-vector_53876-157650.jpg?w=2000"
+        },
+        {
+            "email": "bDgTgAZgsPOtRlSjxfwEnrCwEzJQwVXD",
+            "title": "Hoi Pui",
+            "description": "I am a drummer looking for a vocalist",
+            "img": "https://thumbs.dreamstime.com/b/abstract-many-metallic-copper-key-note-music-floating-violet-purple-background-d-rendering-144153032.jpg"
+        },
+        {
+            "email": "DTvPDBcHrlstngftQejMaWnNELZyCxYj",
+            "title": "Sze Chung",
+            "description": "I am a vocalist looking for a drummer",
+            "img": "https://i.pinimg.com/564x/c3/89/18/c3891830f480d90da165aea310f42c81.jpg"
+        }
+    ]
+}

@@ -2,18 +2,23 @@ import Genre
 import Instrument
 import Proficiency
 
+from flask import Flask
+
 from DBMS import Database
 from Genre import *
 from Instrument import *
 from Proficiency import *
 from User import User
 from Venue import Venue
+from FeedPost import FeedPost
 
+app = Flask(__name__)
 
 
 auth_DB = Database("auth")
 users = Database("users")
 venues = Database("venues")
+feed_DB = Database("feed")
 
 def authenticate_user(username:str, password:str) -> int:
     if username in auth_DB:
@@ -174,3 +179,20 @@ def get_venue(venue_id:str) -> Venue:
         return venues[venue_id]
     else:
         return None
+
+def create_venue(name:str, address:str, city:str, state:str, zipcode:int, phone:str, website:str, capacity:int) -> bool:
+    new_venue = Venue(name=name, address=address, city=city, state=state, zip_code=zipcode, phone=phone, website=website, capacity=capacity)
+    venues[new_venue.id] = new_venue
+    return True
+
+def create_feedPost(username:str, title:str, content:str, link:str) -> bool:
+    if username in users:
+        feed_post = FeedPost(username=username, title=title, summary=content, link=link)
+        feed_DB[feed_post.id] = feed_post
+        return True
+    else:
+        return False
+
+@app.route("/feed")
+def get_all_feedPosts() -> tuple:
+    # return list(map(lambda x: x.__dict__, feed_DB.values()))

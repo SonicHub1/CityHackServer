@@ -1,4 +1,5 @@
 class Venue:
+    _all_venues = []
     def __init__(self, name, address, city, state, zip_code, phone, website, capacity):
         self._name = name
         self._address = address
@@ -8,10 +9,15 @@ class Venue:
         self._phone = phone
         self._website = website
         self._capacity = capacity
-        self._id = None
+        Venue._all_venues.append(self)
+        self._id = str(len(Venue._all_venues)+1)
 
     def __str__(self):
         return self._name
 
     def __repr__(self):
         return self._name
+
+    @property
+    def id(self):
+        return self._id
