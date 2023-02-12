@@ -20,6 +20,7 @@ users = Database("users")
 venues = Database("venues")
 feed_DB = Database("feed")
 
+@app.route('/auth/usr')
 def authenticate_user(username:str, password:str) -> int:
     if username in auth_DB:
         if auth_DB[username] == password:
@@ -30,6 +31,7 @@ def authenticate_user(username:str, password:str) -> int:
         return -1
 
 
+@app.route('/auth/#success/create/usr')
 def create_user(name:str, username:str, password:str) -> bool:
     if username not in auth_DB:
         auth_DB[username] = password
@@ -40,6 +42,7 @@ def create_user(name:str, username:str, password:str) -> bool:
         return False
 
 
+@app.route('/get/usr')
 def get_user(username:str) -> User:
     if username in users:
         return users[username]
@@ -47,14 +50,17 @@ def get_user(username:str) -> User:
         return None
 
 
+@app.route('/get/instruments/proficiencies')
 def get_proficiencies() -> list:
     return Proficiency.get_all_proficiencies()
 
 
+@app.route('/get/instruments')
 def get_instruments() -> list:
     return Instrument.get_all_instruments()
 
 
+@app.route('/get/genres')
 def get_genres() -> list:
     return Genre.get_all_genres()
 
@@ -67,7 +73,7 @@ def _create_instrument_obj(instrument:str, proficiency:str, performer:bool, teac
     proficiency = _create_proficiency_obj(proficiency)
     return eval(f"{instrument}(proficiency, performer, teacher, student)")
 
-
+@app.route('/add/instruments')
 # instruments = [("Guitar", "Beginner", True, False, False), ("Piano", "Intermediate", False, True, False)]
 def add_instruments(username:str, instruments:list[str]) -> bool:
     if username in users:
@@ -84,6 +90,7 @@ def _create_genre_obj(genre:str) -> Genre:
     return eval(f"{genre}()")
 
 
+@app.route('/add/genres')
 def add_genres(username:str, genres:list) -> bool:
     if username in users:
         user_obj = users[username]
@@ -109,6 +116,7 @@ def _get_all_teachers() -> list:
         if user.is_teacher:
             yield user
 
+@app.route('/get/teachers')
 def get_all_teachers() -> tuple:
     return tuple(_get_all_teachers())
 
@@ -118,6 +126,7 @@ def _get_all_students() -> list:
         if user.is_student:
             yield user
 
+@app.route('/get/students')
 def get_all_students() -> tuple:
     return tuple(_get_all_students())
 
@@ -127,6 +136,7 @@ def _get_all_performers_by_genre(genre:str) -> list:
         if user.has_genre(genre):
             yield user
 
+@app.route('/get/performers/genre')
 def get_all_performers_by_genre(genre:str) -> tuple:
     return tuple(_get_all_performers_by_genre(genre))
 
@@ -136,6 +146,8 @@ def _get_all_teachers_by_genre(genre:str) -> list:
         if user.has_genre(genre):
             yield user
 
+
+@app.route('/get/teachers/genre')
 def get_all_teachers_by_genre(genre:str) -> tuple:
     return tuple(_get_all_teachers_by_genre(genre))
 
@@ -145,6 +157,7 @@ def _get_all_students_by_genre(genre:str) -> list:
         if user.has_genre(genre):
             yield user
 
+@app.route('/get/students/genre')
 def get_all_students_by_genre(genre:str) -> tuple:
     return tuple(_get_all_students_by_genre(genre))
 
@@ -153,6 +166,7 @@ def _get_all_performers_by_instrument(instrument:str) -> list:
         if user.plays_instrument(instrument):
             yield user
 
+@app.route('/get/performers/instrument')
 def get_all_performers_by_instrument(instrument:str) -> tuple:
     return tuple(_get_all_performers_by_instrument(instrument))
 
@@ -161,6 +175,7 @@ def _get_all_teachers_by_instrument(instrument:str) -> list:
         if user.plays_instrument(instrument):
             yield user
 
+@app.route('/get/teachers/instrument')
 def get_all_teachers_by_instrument(instrument:str) -> tuple:
     return tuple(_get_all_teachers_by_instrument(instrument))
 
@@ -169,22 +184,24 @@ def _get_all_students_by_instrument(instrument:str) -> list:
         if user.plays_instrument(instrument):
             yield user
 
-
+@app.route('/get/students/instrument')
 def get_all_students_by_instrument(instrument:str) -> tuple:
     return tuple(_get_all_students_by_instrument(instrument))
 
-
+@app.get('/get/venues')
 def get_venue(venue_id:str) -> Venue:
     if venue_id in venues:
         return venues[venue_id]
     else:
         return None
 
+@app.get('/create/venue')
 def create_venue(name:str, address:str, city:str, state:str, zipcode:int, phone:str, website:str, capacity:int) -> bool:
     new_venue = Venue(name=name, address=address, city=city, state=state, zip_code=zipcode, phone=phone, website=website, capacity=capacity)
     venues[new_venue.id] = new_venue
     return True
 
+@app.get('/create/post')
 def create_feedPost(username:str, title:str, content:str, link:str) -> bool:
     if username in users:
         feed_post = FeedPost(username=username, title=title, summary=content, link=link)
@@ -193,7 +210,7 @@ def create_feedPost(username:str, title:str, content:str, link:str) -> bool:
     else:
         return False
 
-@app.route("/feed")
+@app.route("get/feed")
 def get_all_feedPosts() -> tuple:
     return list(map(lambda x: x.__dict__, feed_DB.values()))
 
