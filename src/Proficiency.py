@@ -8,19 +8,24 @@ class Proficiency(ABC):
 
     def __new__(cls, *args, **kwargs):
         if cls._obj is None:
-            cls._obj = super().__new__(cls, *args, **kwargs)
+            cls._obj = super().__new__(cls)
         return cls._obj
 
     def __init__(self, name:str):
         self._name:str = name
+
+    def __str__(self):
+        return self._name
 
     @property
     def name(self) -> str:
         """Get the name of the proficiency"""
         return self._name
 
-    def __str__(self):
-        return f"Name: {self._name}"
+    @classmethod
+    def get_all_proficiencies(cls):
+        """Get all proficiencies"""
+        return tuple(x.__name__ for x in Proficiency.__subclasses__())
 
 class Easy(Proficiency):
     """Class defining easy proficiency"""

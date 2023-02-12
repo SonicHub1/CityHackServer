@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# DS_store
+*.DS_Store
+**/.DS_Store
+
+# Pickle Files
+*.pkl
+**/.pkl
+DB/*.pkl
+
+#Admin Script
+Admin.py
+admin.py
+
+#Seed Data
+seed_data.json
+
+#file that seeds for testing
+seeder.py
